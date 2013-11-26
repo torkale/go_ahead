@@ -1,37 +1,54 @@
 package channel
 
-import(
-  "fmt"
-  "sync"
+import (
+    "fmt"
+    "time"
 )
 
-type Customer string
+const (
+    SHAVE_TIME        = 700
+    CLIENT_CYCLE_TIME = 400
+    GREEN             = "\x1b[32;1m"
+    YELLOW            = "\x1b[33;1m"
+    RED               = "\x1b[31;1m"
+)
+
+type Customer struct {
+    val int
+}
 
 var (
-  seats = make(chan Customer, 2)
-  wg = new(sync.WaitGroup)
-  customers = []Customer{ "A", "B", "C", "D" }
+    seats = make(chan Customer, 2)
 )
 
 func barber() {
-  for {
-    c := <-seats
-    fmt.Println("Barber shaving", c)
-  }
+    for {
+        c := <-seats
+        time.Sleep(SHAVE_TIME * time.Millisecond)
+        fmt.Println(GREEN, "   Barber is shaving customer", c.val)
+    }
 }
 
 func (c Customer) enter() {
-  defer wg.Done()
-  select {
-  case seats <- c:
-  default:
-    fmt.Println("Customer", c, "Leaves")
-  }
+    select {
+    case seats <- c:
+    default:
+        fmt.Println(RED, "<= No room for customer", c.val, "- Leaves shop")
+    }
+}
+
+func customerProducer() {
+    for i := 0; ; i++ {
+        time.Sleep(CLIENT_CYCLE_TIME * time.Millisecond)
+        c := Customer{i}
+        fmt.Println(YELLOW, "=> Customer", c.val, "enters the shop")
+        c.enter()
+    }
+
 }
 
 func BarberShop() {
-  wg.Add(4)
-  go barber()
-  for _, c := range customers { go c.enter() }
-  wg.Wait()
+    go barber()
+    go customerProducer()
+    time.Sleep(8 * time.Second)
 }

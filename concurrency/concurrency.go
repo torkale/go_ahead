@@ -2,14 +2,14 @@ package main
 
 import (
   //"./wait"
-  //"./channel"
+  "./channel"
 )
 
 func main() {
-  Simple()
+  //Simple()
   //wait.Simple()
   //channel.Simple()
   //channel.ProducerConsumer()
   //channel.ProducerConsumerTimeout()
-  //channel.BarberShop()
+  channel.BarberShop()
 }
