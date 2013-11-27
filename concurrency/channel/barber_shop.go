@@ -18,7 +18,7 @@ type Customer struct {
 }
 
 var (
-    seats = make(chan Customer, 2)
+    seats chan Customer
 )
 
 func barber() {
@@ -30,6 +30,7 @@ func barber() {
 }
 
 func (c Customer) enter() {
+    fmt.Println(YELLOW, "=> Customer", c.val, "enters the shop")
     select {
     case seats <- c:
     default:
@@ -38,17 +39,15 @@ func (c Customer) enter() {
 }
 
 func customerProducer() {
-    for i := 0; ; i++ {
+    for i := 1; ; i++ {
         time.Sleep(CLIENT_CYCLE_TIME * time.Millisecond)
-        c := Customer{i}
-        fmt.Println(YELLOW, "=> Customer", c.val, "enters the shop")
-        c.enter()
+        Customer{i}.enter()
     }
-
 }
 
 func BarberShop() {
+    seats = make(chan Customer, 2)
     go barber()
     go customerProducer()
-    time.Sleep(8 * time.Second)
+    time.Sleep(8 * time.Second) // lets the simulation run
 }
