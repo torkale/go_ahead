@@ -3,17 +3,17 @@ package main
 import "fmt"
 
 type Talker interface {
-  Talk() string
+    Talk() string
 }
 
-func (d *Dude) Talk() string {
-  return fmt.Sprintf("My name is %s", d.FullName())
+func (dude Person) Talk() string {
+    return fmt.Sprintf("My name is %s", dude.FullName())
 }
 
 func MakeSomeoneTalk(talker Talker) string {
-  return talker.Talk()
+    return talker.Talk()
 }
 
 func interfaces() {
-  fmt.Println(MakeSomeoneTalk(&Dude{"Robert", "de Niro"}))
+    fmt.Println(MakeSomeoneTalk(Person{"Robert", "de Niro"}))
 }

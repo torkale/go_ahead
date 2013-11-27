@@ -1,8 +1,8 @@
 package main
 
 func main() {
-    //methods()
+    methods()
     //interfaces()
     //functions()
-    benchmark()
+    //benchmark()
 }

@@ -2,26 +2,26 @@ package main
 
 import "fmt"
 
-func (d *Dude) FullName() string {
-  return fmt.Sprintf("%s %s", d.first, d.last)
+func (dude Person) FullName() string {
+    return fmt.Sprintf("%s %s", dude.first, dude.last)
 }
 
-func (d *Dude) SetFirst(name Name) {
-  d.first = name
+func (dude Person) SetFirst(name Name) {
+    dude.first = name
 }
 
-func (u *UberDude) ToString() string {
-  return fmt.Sprintf("Name: %s Age: %d", u.FullName(), u.age)
+func (h *Hero) ToString() string {
+    return fmt.Sprintf("Name: %s Power: %s", h.FullName(), h.power)
 }
 
-func NewDude(f, l Name) *Dude {
-  return &Dude{f, l}
+func NewPerson(f, l Name) *Person {
+    return &Person{f, l}
 }
 
 func methods() {
-  udi := new(UberDude)
-  udi.first = "Sideshow"
-  udi.last = "Bob"
-  udi.age = 42
-  fmt.Println(udi.ToString())
+    superman := new(Hero)
+    superman.first = "Klark"
+    superman.last = "Kent"
+    superman.power = "Flying"
+    fmt.Println(superman.ToString())
 }

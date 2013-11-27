@@ -2,16 +2,16 @@ package main
 
 type Name string
 
-type Dude struct {
-  first Name
-  last Name
+type Person struct {
+    first Name
+    last  Name
 }
 
-type UberDude struct {
-  Dude 
-  age int
+type Hero struct {
+    Person
+    power string
 }
 
-type Dudesville struct {
-  dudes []Dude
+type Crowd struct {
+    people []Person
 }

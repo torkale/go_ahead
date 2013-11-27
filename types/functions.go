@@ -2,27 +2,27 @@ package main
 
 import "fmt"
 
-type DudeAction func(dude Dude) Name
+type PersonAction func(some Person) Name
 
-func (vil *Dudesville) ConcatDudeActions(action DudeAction) string {
-  var result string
-  for _, dude := range vil.dudes {
-    result = fmt.Sprintf("%s %s", result, action(dude))
-  }
-  return result
+func (crowd Crowd) ConcatPersonActions(action PersonAction) string {
+    var result string
+    for _, dude := range crowd.people {
+        result = fmt.Sprintf("%s %s", result, action(dude))
+    }
+    return result
 }
 
-func AllDudeLastNames(vil *Dudesville) string {
-  return vil.ConcatDudeActions(func(d Dude) Name {
-    return d.last
-  })
+func AllLastNames(crowd Crowd) string {
+    return crowd.ConcatPersonActions(func(dude Person) Name {
+        return dude.last
+    })
 }
 
 func functions() {
-  vil := Dudesville{
-    []Dude{
-      Dude{"Bart", "Simpson"},
-      Dude{"Crusty", "Clown"},
-    }}
-  fmt.Println(AllDudeLastNames(&vil))
+    crowd := Crowd{
+        []Person{
+            {"Bart", "Simpson"},
+            {"Crusty", "Clown"},
+        }}
+    fmt.Println(AllLastNames(crowd))
 }
