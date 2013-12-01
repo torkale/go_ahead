@@ -23,6 +23,7 @@ func functions() {
         []Person{
             {"Bart", "Simpson"},
             {"Crusty", "Clown"},
+            {"Barney", "Gumble"},
         }}
     fmt.Println(AllLastNames(crowd))
 }

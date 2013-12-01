@@ -20,7 +20,7 @@ func consumer(c chan string) {
 }
 
 func getWork() string{
-  time.Sleep(100 * time.Millisecond)
+  time.Sleep(200 * time.Millisecond)
   return fmt.Sprintf("Current time: %s", time.Now())
 }
 

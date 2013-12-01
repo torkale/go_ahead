@@ -1,6 +1,7 @@
 require 'socket'
-
-server = TCPServer.open 8080
+PORT = 8080
+server = TCPServer.open PORT
+puts "Starting server on port #{PORT}"
 
 loop {
   Thread.start(server.accept()) do |client|

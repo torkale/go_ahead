@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+  "math/rand"
+  "fmt"
+)
 
 func IsEven(x int) bool {
   var even bool
@@ -20,5 +23,6 @@ func IsEven(x int) bool {
   return even
 }
 func conditions() {
-  fmt.Printf("%d is even? %t\n", 5, IsEven(5))
+  r := rand.Intn(100)
+  fmt.Printf("%d is even? %t\n", r, IsEven(r))
 }

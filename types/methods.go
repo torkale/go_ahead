@@ -14,14 +14,14 @@ func (h *Hero) ToString() string {
     return fmt.Sprintf("Name: %s Power: %s", h.FullName(), h.power)
 }
 
-func NewPerson(f, l Name) *Person {
-    return &Person{f, l}
+func NewPerson(f, l Name) Person {
+    return Person{f, l}
 }
 
 func methods() {
-    superman := new(Hero)
-    superman.first = "Klark"
-    superman.last = "Kent"
-    superman.power = "Flying"
+    superman := Hero{
+      NewPerson("Klark", "Kent"),
+      "Flying" }
+
     fmt.Println(superman.ToString())
 }

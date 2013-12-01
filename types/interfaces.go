@@ -15,5 +15,5 @@ func MakeSomeoneTalk(talker Talker) string {
 }
 
 func interfaces() {
-    fmt.Println(MakeSomeoneTalk(Person{"Robert", "de Niro"}))
+    fmt.Println(MakeSomeoneTalk(NewPerson("Robert", "de Niro")))
 }
