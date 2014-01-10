@@ -2,6 +2,7 @@ package main
 
 import (
   "encoding/json"
+  "fmt"
   "io/ioutil"
   "log"
   "net/http"
@@ -17,49 +18,38 @@ type User struct {
   Entries *[]Entry `json:"entry"`
 }
 
-func event_handler(w http.ResponseWriter, r *http.Request) {
+func eventHandler(w http.ResponseWriter, r *http.Request) {
   body, err := ioutil.ReadAll(r.Body)
-  if err != nil {
-    log.Println(err, "read")
-    w.WriteHeader(400)
+  if retire("read", err, w) {
     return
   }
 
-  u, err := parseBody(body)
-  if err != nil {
-    log.Println(err, "parse")
-    w.WriteHeader(400)
-    return
-  }
-
-  err = publish_events(body, *u.Entries)
-  if err != nil {
-    log.Println(err, "publish")
-    w.WriteHeader(500)
-    return
-  }
-
-  w.WriteHeader(200)
-}
-
-func parseBody(body []byte) (u *User, err error) {
+  var u *User
   err = json.Unmarshal(body, &u)
-  if err != nil {
-    return nil, err
+  if retire("parse", err, w) {
+    return
   }
-  return u, nil
-}
 
-func publish_events(body []byte, entries []Entry) (err error) {
-  for _, entry := range entries {
+  for _, entry := range *u.Entries {
     for _, field := range entry.Changed_fields {
       err = conn.Publish(body, field)
-      if err != nil {
-        return err
+      if retire("publish", err, w) {
+        return
       }
     }
   }
-  return nil
+
+  w.WriteHeader(200)
+  fmt.Fprintf(w, `{"success":true}`)
+}
+
+func retire(phase string, err error, w http.ResponseWriter) bool {
+  if err == nil {
+    return false
+  }
+  log.Println(err, phase)
+  w.WriteHeader(500)
+  return true
 }
 
 func init() {
@@ -72,6 +62,6 @@ func init() {
 
 func main() {
   log.Println("Starting server on 8080")
-  http.HandleFunc("/event", event_handler)
+  http.HandleFunc("/event", eventHandler)
   http.ListenAndServe(":8080", nil)
 }

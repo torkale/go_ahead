@@ -15,10 +15,7 @@ channel.queue("location", :durable => true).bind(exchange, :routing_key => "loca
 get '/event' do
   raw = request.body.read
   data = JSON.parse raw
-  data["entry"].each do |entry|
-    entry["changed_fields"].each do |field|
-      exchange.publish(raw, :routing_key => field)
-    end
-  end
-  return '{"success":true}'
+  field = data["entry"][0]["changed_fields"][0]
+  exchange.publish(raw, :routing_key => field)
+  '{"success":true}'
 end
