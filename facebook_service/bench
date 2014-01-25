@@ -1,0 +1,1 @@
+wrk -t 16 -c 100 --body '{"object":"user","entry":[{"uid":"499535393","id":"499535393","time":1326210816,"changed_fields":["location"]}]}' -d 5 http://localhost:8080/event
