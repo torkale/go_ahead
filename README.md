@@ -1,5 +1,5 @@
 go ahead
 ========
-Code Examples that goes with the talk "Go Ahead Make my Day"
+Code Examples that goes with go intro talks
 
-Introduction to go emphasizing concurrency
+Web service example resides in facebook_service
