@@ -1,5 +1,6 @@
 var amqp = require('amqp');
 var http = require('http');
+var cluster = require('cluster');
 
 var connection = amqp.createConnection({url:"amqp://guest:guest@localhost:5672"});
 connection.on('ready', function () {
@@ -24,5 +25,12 @@ var app = function(request,res){
   });
 };
 
-console.log("Starting server on port 8080")
-http.createServer(app).listen(8080);
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < 4; i++) {
+    cluster.fork();
+  }
+} else {
+  console.log("Starting server on port 8080")
+  http.createServer(app).listen(8080);
+}
